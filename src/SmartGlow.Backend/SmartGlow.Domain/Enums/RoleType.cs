@@ -1,6 +1,6 @@
 ﻿namespace SmartGlow.Domain.Enums;
 
-public enum RoleType
+public enum RoleType: byte
 {
     /// <summary>
     /// Represents a User
