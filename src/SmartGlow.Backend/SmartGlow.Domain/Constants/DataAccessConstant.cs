@@ -3,7 +3,7 @@
 /// <summary>
 /// Represents Data Access Constants
 /// </summary>
-public static class DataAccessConstants
+public static class DataAccessConstant
 {
     /// <summary>
     /// Database connection string constant
