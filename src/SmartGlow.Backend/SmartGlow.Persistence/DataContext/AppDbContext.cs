@@ -10,4 +10,15 @@ public class AppDbContext(DbContextOptions<AppDbContext> dbContextOptions): DbCo
     public DbSet<User> Users => Set<User>();
     
     #endregion
+
+    #region MyRegion
+
+    public DbSet<Street> Streets => Set<Street>();
+
+    #endregion
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+    }
 }
