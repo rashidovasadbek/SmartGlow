@@ -1,10 +1,10 @@
 ﻿using System.Linq.Expressions;
+using SmartGlow.Application.Users.Models;
 using SmartGlow.Domain.Common.Commands;
 using SmartGlow.Domain.Common.Queries;
 using SmartGlow.Domain.Entities;
-using SmartGlow.Domain.Enums;
 
-namespace SmartGlow.Application.Common.Identity;
+namespace SmartGlow.Application.Users.Services;
 
 /// <summary>
 /// Defines foundation service for users
@@ -19,6 +19,14 @@ public interface IUserService
     /// <returns>Queryable source of users.</returns>
     IQueryable<User> Get(Expression<Func<User, bool>>? predicate = default, QueryOptions queryOptions = default);
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="clientFilter"></param>
+    /// <param name="queryOptions"></param>
+    /// <returns></returns>
+    IQueryable<User> Get(UserFilter clientFilter, QueryOptions queryOptions = default);
+    
     /// <summary>
     /// Gets a single user by their ID.
     /// </summary>
@@ -75,7 +83,7 @@ public interface IUserService
     /// <param name="commandOptions">Command options.</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>Created user.</returns>
-    ValueTask<User> CreateAsync(User user, RoleType roleType, CommandOptions commandOptions = default, CancellationToken cancellationToken = default);
+    ValueTask<User> CreateAsync(User user, CommandOptions commandOptions = default, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing user.

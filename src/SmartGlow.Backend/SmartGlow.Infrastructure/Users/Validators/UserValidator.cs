@@ -1,10 +1,11 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.Extensions.Options;
 using SmartGlow.Domain.Entities;
 using SmartGlow.Domain.Enums;
 using SmartGlow.Infrastructure.Settings;
 
-namespace SmartGlow.Infrastructure.Common.Validators;
+namespace SmartGlow.Infrastructure.Users.Validators;
 
 public class UserValidator : AbstractValidator<User> 
 {
@@ -13,7 +14,7 @@ public class UserValidator : AbstractValidator<User>
         var settings = validationSettings.Value;
         
         RuleSet(
-            IdentityEvent.OnSignUpUser.ToString(),
+            EntityEvent.OnCreate.ToString(),
             () =>
             {
                 RuleFor(user => user.FirstName)
@@ -36,14 +37,12 @@ public class UserValidator : AbstractValidator<User>
                 
                 RuleFor(user => user.PhoneNumber)
                     .NotEmpty()
-                    .MinimumLength(13)
-                    .MaximumLength(16)
+                    .MinimumLength(10)
+                    .MaximumLength(15)
                     .Matches(settings.PhoneNumberRegexPattern);
-                
-                RuleFor(user => user.Password)
-                    .NotEmpty()
-                    .MinimumLength(8)
-                    .Matches(settings.PasswordRegexPattern);
+
+                RuleFor(user => user.PasswordHash).NotEmpty();
             });
+        
     }
 }
