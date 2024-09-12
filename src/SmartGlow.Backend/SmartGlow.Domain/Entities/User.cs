@@ -3,7 +3,7 @@ using SmartGlow.Domain.Enums;
 
 namespace SmartGlow.Domain.Entities;
 
-public class User : Entity
+public class User : AuditableEntity
 {
     /// <summary>
     /// Gets or sets user first name
@@ -38,5 +38,10 @@ public class User : Entity
     /// <summary>
     /// Gets or sets password
     /// </summary>
-    public string Password { get; set; } = default!;
+    public string PasswordHash { get; set; } = default!;
+
+    /// <summary>
+    /// Gets or sets Streets 
+    /// </summary>
+    public IList<Street> Streets { get; set; } = [];
 }

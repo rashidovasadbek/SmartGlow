@@ -2,6 +2,7 @@
 using SmartGlow.Domain.Common.Commands;
 using SmartGlow.Domain.Common.Queries;
 using SmartGlow.Domain.Entities;
+using SmartGlow.Persistence.Caching.Brokers;
 using SmartGlow.Persistence.DataContext;
 using SmartGlow.Persistence.Repositories.Interfaces;
 
@@ -10,9 +11,9 @@ namespace SmartGlow.Persistence.Repositories;
 /// <summary>
 /// Provides user repository functionality
 /// </summary>
-public class UserRepository(AppDbContext dbContext) : EntityRepositoryBase<User, AppDbContext>(dbContext), IUserRepository
+public class UserRepository(AppDbContext dbContext, ICacheBroker cacheBroker) : EntityRepositoryBase<User, AppDbContext>(dbContext, cacheBroker), IUserRepository
 {
-    public new IQueryable<User> Get(Expression<Func<User, bool>>? predicate = default, QueryOptions queryOptions = default)
+    public new  IQueryable<User> Get(Expression<Func<User, bool>>? predicate = default, QueryOptions queryOptions = default)
     {
         return base.Get(predicate, queryOptions);
     }

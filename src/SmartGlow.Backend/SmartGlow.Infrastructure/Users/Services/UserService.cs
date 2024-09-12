@@ -2,16 +2,18 @@
 using AutoMapper;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using SmartGlow.Application.Common.Identity;
+using SmartGlow.Application.Users.Models;
+using SmartGlow.Application.Users.Services;
 using SmartGlow.Domain.Common.Commands;
 using SmartGlow.Domain.Common.Queries;
 using SmartGlow.Domain.Entities;
 using SmartGlow.Domain.Enums;
 using SmartGlow.Domain.Extensions;
 using SmartGlow.Persistence.Caching.Brokers;
+using SmartGlow.Persistence.Extensions;
 using SmartGlow.Persistence.Repositories.Interfaces;
 
-namespace SmartGlow.Infrastructure.Common.Identity.Services;
+namespace SmartGlow.Infrastructure.Users.Services;
 
 /// <summary>
 /// Provides user foundation service functionality
@@ -22,6 +24,9 @@ public class UserService(IMapper mapper, ICacheBroker cacheBroker, IValidator<Us
     {
         return userRepository.Get(predicate, queryOptions);
     }
+
+    public IQueryable<User> Get(UserFilter userFilter, QueryOptions queryOptions = default)
+        => userRepository.Get(queryOptions: queryOptions).ApplyPagination(userFilter);
 
     public ValueTask<User?> GetByIdAsync(Guid userId, QueryOptions queryOptions = default, CancellationToken cancellationToken = default)
     {
@@ -77,24 +82,32 @@ public class UserService(IMapper mapper, ICacheBroker cacheBroker, IValidator<Us
         throw new NotImplementedException();
     }
 
-    public async ValueTask<User> CreateAsync(User user, RoleType roleType, CommandOptions commandOptions = default,
+    public async ValueTask<User> CreateAsync(User user, CommandOptions commandOptions = default,
         CancellationToken cancellationToken = default)
     {
-        var validationResult = await userValidator.ValidateAsync(
-            user,
-            options => options.IncludeRuleSets(mapper.Map<IdentityEvent>(roleType).ToString())
-            , cancellationToken);
-        
-        if(!validationResult.IsValid)
+       
+        var validationResult = userValidator
+            .Validate(user,
+                options => 
+                    options.IncludeRuleSets(EntityEvent.OnCreate.ToString()));
+
+        if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
         
-        return await userRepository.CreateAsync(user,commandOptions ,cancellationToken);
+        return await userRepository.CreateAsync(user, new CommandOptions() { SkipSavingChanges = false }, cancellationToken);
     }
 
-    public ValueTask<User> UpdateAsync(User user, CommandOptions commandOptions = default,
+    public async ValueTask<User> UpdateAsync(User user, CommandOptions commandOptions = default,
         CancellationToken cancellationToken = default)
     {
-        return userRepository.UpdateAsync(user,commandOptions,cancellationToken);
+        var foundClient = await GetByIdAsync(user.Id, cancellationToken: cancellationToken) ?? throw new InvalidOperationException();
+
+        foundClient.FirstName = user.FirstName;
+        foundClient.LastName = user.LastName;
+        foundClient.UserName = user.UserName;
+        foundClient.PhoneNumber = user.PhoneNumber;
+        
+        return await userRepository.UpdateAsync(user,commandOptions,cancellationToken);
     }
 
     public ValueTask<User?> DeleteByIdAsync(Guid userId, CommandOptions commandOptions = default,

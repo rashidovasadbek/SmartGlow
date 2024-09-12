@@ -3,8 +3,7 @@
 namespace SmartGlow.Persistence.Caching.Brokers;
 
 public interface ICacheBroker
-{
-        /// <summary>
+{  /// <summary>
     /// Gets the cache entry value with the specified key.
     /// </summary>
     /// <typeparam name="T">The type of the cache entry value.</typeparam>
@@ -21,8 +20,8 @@ public interface ICacheBroker
     /// <param name="value">Cached entry value if found, otherwise default value</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>True if the cached entry was found and retrieved successfully; otherwise, false.</returns>
-    bool TryGetAsync<T>(string key, out T? value, CancellationToken cancellationToken = default);
-
+    ValueTask<bool> TryGetAsync<T>(string key, out T? value, CancellationToken cancellationToken = default);
+    
     /// <summary>
     /// Attempts to get the cache entry with the specified key. If not found, sets the cache entry with the specified key and value.
     /// </summary>
@@ -32,10 +31,12 @@ public interface ICacheBroker
     /// <param name="entryOptions">A cache entry options to specify caching options</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>Found instance of <see cref="T"/> if found, otherwise default value.</returns>
-    ValueTask<T?> GetOrSetAsync<T>(string key,
+    ValueTask<T?> GetOrSetAsync<T>(
+        string key,
         T value,
         CacheEntryOptions? entryOptions = default,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default
+    );
 
     /// <summary>
     /// Attempts to get the cache entry with the specified key. If not found, sets the cache entry with the specified key and value.
@@ -123,5 +124,4 @@ public interface ICacheBroker
     /// <param name="key">The key of the cache entry.</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>A <see cref="ValueTask"/> representing the asynchronous operation.</returns>
-    ValueTask DeleteAsync(string key, CancellationToken cancellationToken = default);
-}
+    ValueTask DeleteAsync(string key, CancellationToken cancellationToken = default);}

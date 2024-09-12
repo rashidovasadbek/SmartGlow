@@ -6,6 +6,13 @@ public static partial class HostConfiguration
     {
         builder
             .AddPersistence()
+            .AddIdentityInfrastructure()
+            .AddMappers()
+            .AddClientInfrastructure()
+            .AddCaching()
+            .AddValidators()
+            .AddMediator()
+            .AddRequestContextTools()
             .AddDevTools()
             .AddExposers();
 
@@ -14,6 +21,9 @@ public static partial class HostConfiguration
 
     public static async ValueTask<WebApplication> ConfigureAsync(this WebApplication app)
     {
+        await app.MigrateDataBaseSchemasAsync();
+        await app.SeedDataAsync();
+        
         app
             .UseExposers()
             .UseDevTools();
