@@ -1,11 +1,11 @@
 ﻿namespace SmartGlow.Persistence.Caching.Models;
 
-public readonly struct CacheEntryOptions(TimeSpan? absoluteExpiration, TimeSpan? slidingExpiration)
+public readonly struct CacheEntryOptions(TimeSpan? absoluteExpirationRelativeToNow, TimeSpan? slidingExpiration)
 {
     /// <summary>
     /// Gets or sets the absolute expiration time relative to the current moment.
     /// </summary>
-    public TimeSpan? AbsoluteExpiration { get; } = absoluteExpiration;
+    public TimeSpan? AbsoluteExpirationRelativeToNow { get; } = absoluteExpirationRelativeToNow;
 
     /// <summary>
     /// Gets or sets the sliding expiration time for cached items.
