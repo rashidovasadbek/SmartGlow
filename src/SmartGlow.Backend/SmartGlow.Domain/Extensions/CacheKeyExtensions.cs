@@ -1,4 +1,6 @@
-﻿namespace SmartGlow.Domain.Extensions;
+﻿using SmartGlow.Domain.Entities;
+
+namespace SmartGlow.Domain.Extensions;
 
 /// <summary>
 /// Contains extensions for cache key generation
@@ -58,7 +60,7 @@ public static class CacheKeyExtensions
     /// </summary>
     /// <param name="refreshTokenValue">The value of the refresh token</param>
     /// <returns>Generated cache key</returns>
-    public static string GetRefreshTokenByValue(string refreshTokenValue) => $"{nameof(RefreshToken)}-{refreshTokenValue}";
+    public static string GetRefreshTokenByValue(RefreshToken refreshTokenValue) => $"{nameof(RefreshToken)}-{refreshTokenValue}";
 
     /// <summary>
     /// Generates cache key for removing refresh token by value operation
