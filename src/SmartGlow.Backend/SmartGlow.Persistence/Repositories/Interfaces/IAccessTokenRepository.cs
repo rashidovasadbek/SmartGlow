@@ -1,4 +1,5 @@
-﻿using SmartGlow.Domain.Entities;
+﻿using SmartGlow.Domain.Common.Commands;
+using SmartGlow.Domain.Entities;
 
 namespace SmartGlow.Persistence.Repositories.Interfaces;
 
@@ -21,7 +22,7 @@ public interface IAccessTokenRepository
     /// <param name="accessToken">The access token to be created.</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>Created access token.</returns>
-    ValueTask<AccessToken> CreateAsync(AccessToken accessToken,  CancellationToken cancellationToken = default);
+    ValueTask<AccessToken> CreateAsync(AccessToken accessToken, CommandOptions commandOptions,  CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Updates an existing access token.
@@ -29,7 +30,7 @@ public interface IAccessTokenRepository
     /// <param name="accessToken">The access token to be updated.</param>
     /// <param name="cancellationToken">A cancellation token to cancel the operation.</param>
     /// <returns>Updated access token.</returns>
-    ValueTask<AccessToken> UpdateAsync(AccessToken accessToken, CancellationToken cancellationToken = default);
+    ValueTask<AccessToken> UpdateAsync(AccessToken accessToken,  CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Deletes an access token by Id.

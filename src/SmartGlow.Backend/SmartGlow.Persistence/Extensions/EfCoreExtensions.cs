@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using SmartGlow.Domain.Common.Entities;
 using SmartGlow.Domain.Common.Queries;
 
 namespace SmartGlow.Persistence.Extensions;
@@ -22,5 +23,23 @@ public static class EfCoreExtensions
             QueryTrackingMode.AsNoTrackingWithIdentityResolution => source.AsNoTrackingWithIdentityResolution(),
             _ => source
         };
+    }
+    
+    /// <summary>
+    /// Queries the source and returns the filtered entities
+    /// </summary>
+    /// <param name="source">Original query source</param>
+    /// <param name="filteredSource">Filtered query source to get entities Id from</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    /// <typeparam name="TSource">Query source type</typeparam>
+    /// <returns>New query with entities Id predicate</returns>
+    public static async ValueTask<IQueryable<TSource>> GetFilteredEntitiesQuery<TSource>(
+        this IQueryable<TSource> filteredSource,
+        IQueryable<TSource> source,
+        CancellationToken cancellationToken = default
+    ) where TSource : class, IEntity
+    {
+        var entitiesId = await filteredSource.Select(entity => entity.Id).ToListAsync(cancellationToken: cancellationToken);
+        return source.Where(entity => entitiesId.Contains(entity.Id));
     }
 }
