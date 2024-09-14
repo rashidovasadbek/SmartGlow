@@ -12,12 +12,12 @@ public class Street : AuditableEntity
     /// <summary>
     /// Gets or sets the Latitude  coordinate
     /// </summary>
-    public double Latitude { get; init; } = default!;
+    public double Latitude { get; set; } 
     
     /// <summary>
     /// Gets or sets the longitude  coordinate
     /// </summary>
-    public double Longitude { get; set; } = default!;
+    public double Longitude { get; set; }
     
     /// <summary>
     /// The unique identifier of the user associated with this street.

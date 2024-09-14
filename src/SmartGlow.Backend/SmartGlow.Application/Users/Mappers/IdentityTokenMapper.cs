@@ -11,7 +11,7 @@ public class IdentityTokenMapper : Profile
         CreateMap<AccessToken, AccessTokenDto>();
 
         CreateMap<(AccessToken AccessToken, RefreshToken refreshToken), IdentityTokenDto>()
-            .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken))
-            .ForMember(dest => dest.RefreshToken, opt => opt.MapFrom(src => src.refreshToken));
+            .ForMember(dest => dest.AccessToken, opt => opt.MapFrom(src => src.AccessToken.Token))
+            .ForMember(dest => dest.RefreshToken, opt => opt.MapFrom(src => src.refreshToken.Token));
     }
 }
