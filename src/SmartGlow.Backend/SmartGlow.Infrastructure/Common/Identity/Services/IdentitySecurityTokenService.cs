@@ -23,7 +23,7 @@ public class IdentitySecurityTokenService(
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
         
-        return accessTokenRepository.CreateAsync(accessToken, cancellationToken);
+        return accessTokenRepository.CreateAsync(accessToken, commandOptions, cancellationToken);
 
     }
 
