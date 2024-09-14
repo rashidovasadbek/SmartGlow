@@ -1,4 +1,4 @@
-﻿namespace SmartGlow.Application.Settings;
+﻿namespace SmartGlow.Application.Common.Settings;
 
 /// <summary>
 /// Represents the configuration settings for caching in a system.
