@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Options;
 using SmartGlow.Domain.Entities;
 using SmartGlow.Domain.Enums;
-using SmartGlow.Infrastructure.Settings;
+using SmartGlow.Infrastructure.Common.Settings;
 
 namespace SmartGlow.Infrastructure.Common.Identity.Validators;
 
