@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SmartGlow.Application.Common.Identity.Queries;
 using SmartGlow.Application.Users.Commands;
 using SmartGlow.Application.Users.Queries;
 
 namespace SmartGlow.Api.Controllers;
-
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UsersController(IMediator mediator): ControllerBase

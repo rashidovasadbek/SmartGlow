@@ -8,7 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using SmartGlow.Api.Data;
 using SmartGlow.Api.Middlewares;
 using SmartGlow.Application.Common.Identity.Services;
-using SmartGlow.Application.Settings;
+using SmartGlow.Application.Common.Settings;
+using SmartGlow.Application.Streets.Services;
 using SmartGlow.Application.Users.Services;
 using SmartGlow.Domain.Brokers;
 using SmartGlow.Domain.Constants;
@@ -17,7 +18,8 @@ using SmartGlow.Infrastructure.Common.Caching;
 using SmartGlow.Infrastructure.Common.Identity.Services;
 using SmartGlow.Infrastructure.Common.Identity.Validators;
 using SmartGlow.Infrastructure.Common.RequestContext.Brokers;
-using SmartGlow.Infrastructure.Settings;
+using SmartGlow.Infrastructure.Common.Settings;
+using SmartGlow.Infrastructure.Streets.Services;
 using SmartGlow.Infrastructure.Users.Services;
 using SmartGlow.Persistence.Caching.Brokers;
 using SmartGlow.Persistence.DataContext;
@@ -56,11 +58,13 @@ public static partial class HostConfiguration
     {
         // Register repositories
         builder.Services
-            .AddScoped<IUserRepository, UserRepository>();
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IStreetRepository, StreetRepository>();
         
         // Register services
         builder.Services
-            .AddScoped<IUserService, UserService>();
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IStreetService, StreetService>();
 
         return builder;
     }
