@@ -1,4 +1,4 @@
-﻿namespace SmartGlow.Infrastructure.Settings;
+﻿namespace SmartGlow.Infrastructure.Common.Settings;
 
 /// <summary>
 /// Configures the desired requirements for password validation.
