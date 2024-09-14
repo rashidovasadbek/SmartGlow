@@ -1,4 +1,5 @@
-﻿using SmartGlow.Domain.Entities;
+﻿using SmartGlow.Domain.Common.Commands;
+using SmartGlow.Domain.Entities;
 using SmartGlow.Persistence.Caching.Brokers;
 using SmartGlow.Persistence.Caching.Models;
 using SmartGlow.Persistence.Repositories.Interfaces;
@@ -12,7 +13,7 @@ public class AccessTokenRepository(ICacheBroker cacheBroker) : IAccessTokenRepos
         return cacheBroker.GetAsync<AccessToken>(tokenId.ToString(), cancellationToken);
     }
 
-    public async ValueTask<AccessToken> CreateAsync(AccessToken accessToken, CancellationToken cancellationToken = default)
+    public async ValueTask<AccessToken> CreateAsync(AccessToken accessToken, CommandOptions commandOptions,  CancellationToken cancellationToken = default)
     {
         var cacheEntryOptions = new CacheEntryOptions(accessToken.ExpiryTime - DateTimeOffset.UtcNow, null);
         await cacheBroker.SetAsync(accessToken.Id.ToString(), accessToken, cacheEntryOptions, cancellationToken);
@@ -20,8 +21,14 @@ public class AccessTokenRepository(ICacheBroker cacheBroker) : IAccessTokenRepos
         return accessToken;
     }
 
-    public ValueTask<AccessToken> UpdateAsync(AccessToken accessToken, CancellationToken cancellationToken = default)
-        => CreateAsync(accessToken, cancellationToken);
+    public async ValueTask<AccessToken> UpdateAsync(AccessToken accessToken, CancellationToken cancellationToken = default)
+    {
+        // Update cache entry with expiration based on AccessToken's ExpiryTime.
+        var cacheEntryOptions = new CacheEntryOptions(accessToken.ExpiryTime - DateTimeOffset.UtcNow, null);
+        await cacheBroker.SetAsync(accessToken.Id.ToString(), accessToken, cacheEntryOptions, cancellationToken);
+
+        return accessToken;
+    }
 
     public async ValueTask<AccessToken?> DeleteByIdAsync(Guid tokenId, CancellationToken cancellationToken = default)
     {

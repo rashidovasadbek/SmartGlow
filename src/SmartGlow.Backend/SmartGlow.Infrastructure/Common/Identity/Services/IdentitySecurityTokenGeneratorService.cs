@@ -8,7 +8,7 @@ using SmartGlow.Application.Common.Identity.Services;
 using SmartGlow.Domain.Constants;
 using SmartGlow.Domain.Entities;
 using SmartGlow.Domain.Extensions;
-using SmartGlow.Infrastructure.Settings;
+using SmartGlow.Infrastructure.Common.Settings;
 
 namespace SmartGlow.Infrastructure.Common.Identity.Services;
 
@@ -109,7 +109,7 @@ public class IdentitySecurityTokenGeneratorService(IOptions<JwtSettings> jwtSett
     /// <summary>
     /// Generates a JWT security token for the specified client and access token.
     /// </summary>
-    /// <param name="client">The client for which the token is generated.</param>
+    /// <param name="user">The client for which the token is generated.</param>
     /// <param name="accessToken">The access token associated with the client.</param>
     /// <returns>A JWT security token.</returns>
     public JwtSecurityToken GetToken(User user, AccessToken accessToken)
@@ -142,6 +142,9 @@ public class IdentitySecurityTokenGeneratorService(IOptions<JwtSettings> jwtSett
     {
         return new List<Claim>()
         {
+            // Claim representing the email address of the client
+            new(ClaimTypes.Name, user.UserName),
+            
             // Claim representing the role of the client
             new(ClaimTypes.Role, user.Role.ToString()),
         

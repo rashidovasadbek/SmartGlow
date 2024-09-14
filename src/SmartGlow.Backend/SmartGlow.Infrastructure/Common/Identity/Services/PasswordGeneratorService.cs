@@ -6,7 +6,7 @@ using SmartGlow.Application.Common.Identity.Models;
 using SmartGlow.Application.Common.Identity.Services;
 using SmartGlow.Domain.Entities;
 using SmartGlow.Domain.Extensions;
-using SmartGlow.Infrastructure.Settings;
+using SmartGlow.Infrastructure.Common.Settings;
 
 namespace SmartGlow.Infrastructure.Common.Identity.Services;
 

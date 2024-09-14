@@ -2,7 +2,7 @@
 using LazyCache;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using SmartGlow.Application.Settings;
+using SmartGlow.Application.Common.Settings;
 using SmartGlow.Persistence.Caching.Brokers;
 using SmartGlow.Persistence.Caching.Models;
 

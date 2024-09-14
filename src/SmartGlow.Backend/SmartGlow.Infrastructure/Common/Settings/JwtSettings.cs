@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using Microsoft.IdentityModel.Tokens;
 
-namespace SmartGlow.Infrastructure.Settings;
+namespace SmartGlow.Infrastructure.Common.Settings;
 
 public class JwtSettings
 {
