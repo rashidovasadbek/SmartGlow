@@ -28,4 +28,6 @@ public class Street : AuditableEntity
     /// Gets or sets the User
     /// </summary>
     public User User { get; set; } = default!;
+
+    public IList<OnOffTiming> OnOffTimings { get; set; } = [];
 }
