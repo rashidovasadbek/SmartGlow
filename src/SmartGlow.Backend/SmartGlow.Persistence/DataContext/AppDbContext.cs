@@ -11,9 +11,11 @@ public class AppDbContext(DbContextOptions<AppDbContext> dbContextOptions): DbCo
     
     #endregion
 
-    #region MyRegion
+    #region Client
 
     public DbSet<Street> Streets => Set<Street>();
+    
+    public DbSet<OnOffTiming> OnOffTimings => Set<OnOffTiming>();
 
     #endregion
     
